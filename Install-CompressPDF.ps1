@@ -185,25 +185,7 @@ $cmd = "powershell.exe -STA -WindowStyle Hidden -ExecutionPolicy Bypass -File " 
 Set-ItemProperty -Path "$regBase\command" -Name "(Default)" -Value $cmd
 Write-OK "Registry entry added"
 
-# ── Step 4: Restore classic context menu on Windows 11 ───────────────────────
-Write-Step "Checking Windows 11 context menu..."
-
-$build = [System.Environment]::OSVersion.Version.Build
-if ($build -ge 22000) {
-    # Windows 11 — restore classic menu for current user
-    $clsidPath = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
-    if (-not (Test-Path $clsidPath)) {
-        New-Item -Path $clsidPath -Force | Out-Null
-        Set-ItemProperty -Path $clsidPath -Name "(Default)" -Value ""
-        Write-OK "Classic context menu restored for Windows 11"
-    } else {
-        Write-OK "Classic context menu already enabled"
-    }
-} else {
-    Write-OK "Windows 10 — no changes needed"
-}
-
-# ── Step 5: Restart Explorer ──────────────────────────────────────────────────
+# ── Step 4: Restart Explorer ──────────────────────────────────────────────────
 Write-Step "Restarting Explorer to apply changes..."
 Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
 Start-Sleep -Seconds 2
