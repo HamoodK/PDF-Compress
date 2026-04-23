@@ -6,6 +6,8 @@ Easily Compress PDF files in windows from sub menu.
 Right-click any PDF on Windows and compress it instantly using Ghostscript.
 No third-party apps, no uploads, works fully offline.
 
+---
+
 ## What it does
 
 - Adds a **"Compress PDF"** option to the right-click menu for all PDF files
@@ -22,31 +24,30 @@ No third-party apps, no uploads, works fully offline.
 | Print Quality | ~300 DPI | Printing documents |
 | Prepress | Max | Professional/commercial printing |
 
-## Files
-
-```
-Install-CompressPDF.bat     Double-click to install (handles admin elevation)
-Install-CompressPDF.ps1     The installer script
-Uninstall-CompressPDF.ps1   Removes the context menu entry
-```
-
-## Requirements
-
-- Windows 10 or Windows 11
-- Internet connection on first install (to download Ghostscript if not present)
-- Administrator rights during installation
+---
 
 ## Installation
 
-1. Copy `Install-CompressPDF.bat` and `Install-CompressPDF.ps1` to the same folder
-2. Double-click `Install-CompressPDF.bat`
-3. Click **Yes** on the UAC prompt
-4. Wait for the installer to finish — Explorer will restart automatically
+### Option 1 — Online Installer (recommended)
 
-The installer will:
-- Install Ghostscript automatically (via Chocolatey if available, otherwise direct download)
-- Deploy the compression script to `C:\ProgramData\CompressPDF\`
-- Register the context menu entry for all users on the PC
+Downloads Ghostscript automatically during installation. Requires internet on first install.
+
+1. Download `CompressPDF-Setup.exe` from the [Releases](../../releases/latest) page
+2. Double-click it and follow the wizard
+3. Click **Yes** on the UAC prompt
+
+### Option 2 — Offline Installer
+
+Fully self-contained. No internet required. Best for restricted or corporate environments.
+
+1. Download `CompressPDF-Setup-Offline.exe` from the [Releases](../../releases/latest) page
+2. Double-click it and follow the wizard
+3. Click **Yes** on the UAC prompt
+
+> Both installers handle everything automatically:
+> install Ghostscript, deploy the compression script, and register the right-click menu.
+
+---
 
 ## Usage
 
@@ -56,12 +57,36 @@ The installer will:
 4. Click **Compress**
 5. A popup confirms the result and shows the size reduction
 
+---
+
 ## Uninstall
 
-Right-click `Uninstall-CompressPDF.ps1` and choose **Run with PowerShell**.
+Open **Add or Remove Programs** → search for **Compress PDF** → Uninstall.
 
-This removes the context menu entry and the deployed script.
-Ghostscript itself is NOT uninstalled.
+Or run `Uninstall-CompressPDF.ps1` directly with PowerShell as Administrator.
+
+> Ghostscript itself is NOT uninstalled.
+
+---
+
+## Requirements
+
+- Windows 10 or Windows 11
+- Administrator rights during installation
+- Internet connection only for the **online** installer
+
+---
+
+## Files
+
+```
+Install-CompressPDF.ps1          Online installer script
+Install-CompressPDF-Offline.ps1  Offline installer script (uses bundled Ghostscript)
+Install-CompressPDF.bat          Legacy launcher (runs online installer as admin)
+Uninstall-CompressPDF.ps1        Removes the context menu entry
+```
+
+---
 
 ## How it works
 
@@ -69,7 +94,7 @@ The installer registers a shell command under:
 ```
 HKLM\Software\Classes\SystemFileAssociations\.pdf\shell\CompressPDF
 ```
-This makes the entry appear for all users on the machine for all PDF files, regardless of which app is set as the default PDF viewer.
+This makes the entry appear for all users on the machine for all PDF files,
+regardless of which app is set as the default PDF viewer.
 
 Compression is handled by [Ghostscript](https://www.ghostscript.com/), an open-source PDF engine.
-
