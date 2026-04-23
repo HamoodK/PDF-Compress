@@ -47,7 +47,6 @@ The installer will:
 - Install Ghostscript automatically (via Chocolatey if available, otherwise direct download)
 - Deploy the compression script to `C:\ProgramData\CompressPDF\`
 - Register the context menu entry for all users on the PC
-- Restore the classic right-click menu on Windows 11
 
 ## Usage
 
@@ -73,3 +72,4 @@ HKLM\Software\Classes\SystemFileAssociations\.pdf\shell\CompressPDF
 This makes the entry appear for all users on the machine for all PDF files, regardless of which app is set as the default PDF viewer.
 
 Compression is handled by [Ghostscript](https://www.ghostscript.com/), an open-source PDF engine.
+
