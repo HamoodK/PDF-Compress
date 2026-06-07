@@ -13,14 +13,10 @@ Remove-Item -Path "HKLM:\Software\Classes\SystemFileAssociations\.pdf\shell\Comp
 # Remove HKCU registry entry (if any)
 Remove-Item -Path "HKCU:\Software\Classes\SystemFileAssociations\.pdf\shell\CompressPDF" -Recurse -Force -ErrorAction SilentlyContinue
 
-# Remove deployed script
+# Remove deployed scripts
 Remove-Item -Path "C:\ProgramData\CompressPDF" -Recurse -Force -ErrorAction SilentlyContinue
-
-# Restart Explorer
-Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-Start-Sleep -Seconds 2
-Start-Process explorer
 
 Write-Host "Done. Compress PDF has been removed." -ForegroundColor Green
 Write-Host "(Ghostscript was NOT uninstalled)" -ForegroundColor Yellow
-pause
+
+if ([Environment]::UserInteractive -and -not [Console]::IsInputRedirected) { pause }
